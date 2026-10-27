@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>راعي — يومي</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f5f5f6;--surface:#fff;--ink:#0b0c10;--mute:#595e6a;--line:#dcdde2;--acc:#0f1f4a;--acc-ink:#fff;--gold:#b8902f;--ok:#2f6b4f;--warn:#a5521a;--hero:#0f1f4a;--hero-ink:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#060607;--surface:#121317;--ink:#f4f4f5;--mute:#a0a3ad;--line:#2a2c33;--acc:#d4af37;--acc-ink:#14080b;--gold:#d4af37;--ok:#6cc39a;--warn:#e29a62;--hero:#0a0f1c;--hero-ink:#f4efe4}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#060607;--surface:#121317;--ink:#f4f4f5;--mute:#a0a3ad;--line:#2a2c33;--acc:#d4af37;--acc-ink:#14080b;--gold:#d4af37;--ok:#6cc39a;--warn:#e29a62;--hero:#0a0f1c;--hero-ink:#f4efe4}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "IBM Plex Sans Arabic",system-ui,Tahoma,sans-serif}
+.app{max-width:560px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:14px}
+h1{font:700 26px/1.3 "Noto Naskh Arabic",Georgia,serif;margin:0}
+.date{color:var(--mute);margin:0;font-size:14px}
+.badge{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--mute);white-space:nowrap}
+#hero{background:var(--hero);color:var(--hero-ink);border-radius:18px;padding:20px 20px 18px;margin-bottom:22px;border-bottom:4px solid #c9a24a}
+#hero small{opacity:.75;display:block}
+.big{font:700 52px/1.15 "Noto Naskh Arabic",Georgia,serif;color:#e6c874;margin:2px 0 4px}
+.chain{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;opacity:.85;margin:10px 0 14px;padding-top:10px;border-top:1px solid rgba(230,200,116,.4)}
+.btn{font:inherit;border:0;border-radius:10px;padding:8px 14px;background:var(--acc);color:var(--acc-ink);cursor:pointer;font-weight:600}
+.btn.alt{background:transparent;color:inherit;border:1px solid currentColor}
+a.btn{text-decoration:none;display:inline-block}
+h2{font:700 19px/1.4 "Noto Naskh Arabic",Georgia,serif;margin:24px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--gold);display:flex;justify-content:space-between;align-items:center}
+.list{background:var(--surface);border-radius:14px;border:1px solid var(--line)}
+.row{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .t{font-weight:600}
+.row .m{font-size:13px;color:var(--mute)}
+.row .grow{flex:1;min-width:0}
+.time{min-width:62px;font-weight:600;color:var(--acc)}
+.past{opacity:.5}
+.warn{color:var(--warn);font-size:13px;font-weight:500}
+.tag{font-size:12px;border-radius:6px;padding:0 6px;border:1px solid var(--line);color:var(--mute)}
+.p-high{border-color:var(--acc);color:var(--acc)}
+.x{background:none;border:0;color:var(--mute);font-size:18px;cursor:pointer;padding:0 4px}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--acc);margin-top:4px}
+.empty{padding:16px;color:var(--mute);font-size:14px}
+.add-row{display:flex;gap:8px;margin-top:8px}
+input,select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;width:100%}
+.add-row input{flex:1}.add-row select{width:auto}
+.ask{margin-top:26px;border:1px dashed var(--line);border-radius:14px;padding:14px;color:var(--mute);font-size:14px}
+.ask input{margin-top:0}
+.ans{white-space:pre-wrap;margin-top:12px;color:var(--ink);font-size:15px;line-height:1.8}
+textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%;margin-top:8px}
+footer{margin-top:22px;font-size:12px;color:var(--mute)}
+#sheet{position:fixed;inset:0;background:rgba(10,14,24,.55);display:none;align-items:flex-end;justify-content:center;z-index:20}
+#sheet.on{display:flex}
+.panel{background:var(--bg);width:100%;max-width:560px;max-height:92%;overflow:auto;border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:13px;color:var(--mute)}
+label input,label select{margin-top:2px;color:var(--ink)}
+.full{grid-column:1/-1}
+.preview{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:12px 0;font-size:14px}
+.mv{display:flex;gap:4px;align-items:center;flex-wrap:wrap}.mv .x{font-size:14px;padding:2px 8px}
+.lk{font-size:13px;color:var(--mute)}
+#alertBar{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:30;max-width:536px;margin:0 auto}
+.alert{background:var(--hero);color:#fff;border:2px solid #c9a24a;border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.sw{width:34px;height:34px;border-radius:50%;border:2px solid var(--surface);cursor:pointer;padding:0}
+.sw.on{outline:2px solid var(--ink);outline-offset:2px}
+.chip{font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:2px 14px;cursor:pointer}
+.chip.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+<style>.ask{display:none}</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div><h1>يومك في راعي</h1><p class="date" id="date"></p></div>
+  <div class="mv"><span class="badge">نموذج أولي</span><button class="btn alt" id="lookBtn" style="color:var(--ink);padding:2px 12px;font-size:13px">المظهر</button><button class="btn alt" id="alBtn" style="color:var(--ink);padding:2px 12px;font-size:13px">التنبيهات</button></div>
+</header>
+
+<div class="list" id="look" hidden style="padding:12px 14px;margin-bottom:14px"></div>
+<div class="list" id="alPanel" hidden style="padding:12px 14px;margin-bottom:14px"></div>
+<section id="hero"></section>
+
+<section class="sec" data-id="appts"><h2><span>المواعيد</span><span class="mv"><button class="x up" aria-label="نقل لأعلى">▲</button><button class="x dn" aria-label="نقل لأسفل">▼</button><button class="btn" id="addAppt">+ موعد</button></span></h2>
+<div class="list" id="appts"></div></section>
+
+<section class="sec" data-id="prep"><h2><span>التحضير</span><span class="mv"><button class="x up" aria-label="نقل لأعلى">▲</button><button class="x dn" aria-label="نقل لأسفل">▼</button></span></h2>
+<div class="list" id="prep"></div></section>
+
+<section class="sec" data-id="tasks"><h2><span>المهام</span><span class="mv"><button class="x up" aria-label="نقل لأعلى">▲</button><button class="x dn" aria-label="نقل لأسفل">▼</button></span></h2>
+<div class="list" id="tasks"></div>
+<div class="add-row">
+  <input id="tTitle" placeholder="مهمة جديدة" aria-label="مهمة جديدة">
+  <select id="tPri" aria-label="الأولوية"><option value="1">عادية</option><option value="0">عالية</option></select>
+  <button class="btn" id="addTask">أضف</button>
+</div></section>
+
+<section class="sec" data-id="follow"><h2><span>المتابعات</span><span class="mv"><button class="x up" aria-label="نقل لأعلى">▲</button><button class="x dn" aria-label="نقل لأسفل">▼</button></span></h2>
+<div class="list" id="follow"></div>
+<div class="add-row">
+  <input id="fTitle" placeholder="اكتب الحد الأدنى فقط (مثال: متابعة أسرة ٣)" aria-label="متابعة جديدة">
+  <input id="fDate" type="date" aria-label="موعد المتابعة" style="width:auto"><button class="btn" id="addFollow">أضف</button>
+</div></section>
+
+<section class="sec" data-id="lib"><h2><span>المكتبة</span><span class="mv"><button class="x up" aria-label="نقل لأعلى">▲</button><button class="x dn" aria-label="نقل لأسفل">▼</button></span></h2>
+<input id="qLib" placeholder="ابحث في التحضيرات والملاحظات" aria-label="بحث">
+<div class="list" id="lib" style="margin-top:8px"></div>
+<div style="margin-top:8px"><input id="nTitle" placeholder="عنوان التحضير أو الملاحظة" aria-label="عنوان"><select id="nAppt" aria-label="ربط بموعد" style="margin-top:8px"></select><textarea id="nBody" rows="3" placeholder="النص" aria-label="النص"></textarea><button class="btn" id="addNote" style="margin-top:8px">احفظ في المكتبة</button></div></section>
+
+<div class="ask" id="askBox"><b>اسأل راعي</b>
+<div class="mv" style="margin:8px 0"><button class="chip" data-q="رتّب لي يومي">رتّب لي يومي</button><button class="chip" data-q="ما الذي أحتاج تحضيره قريبًا؟">ما الذي أحتاج تحضيره؟</button><button class="chip" data-q="حضّر لي مخططًا للموعد القادم">مخطط للموعد القادم</button></div>
+<div class="add-row"><input id="qAsk" placeholder="اكتب طلبك" aria-label="اسأل راعي"><button class="btn" id="goAsk">اسأل</button></div>
+<div class="ans" id="ans"></div>
+<button class="btn alt" id="saveAns" hidden style="color:var(--ink);margin-top:8px">احفظ الإجابة في المكتبة</button>
+<div class="lk" style="margin-top:10px">عند السؤال تُرسل مواعيدك ومهامك المفتوحة إلى Claude لتكوين الإجابة. المتابعات لا تُرسل أبدًا. الإجابة قد تخطئ، فراجع الآيات والمراجع قبل استخدامها.</div></div>
+
+<div class="list" id="bk" style="padding:12px 14px;margin-top:22px"><b>نسخة احتياطية</b>
+<div class="lk" style="margin:4px 0 8px">انسخ بياناتك واحفظها في مكان آمن وارجع لها وقت ما تحب. النسخة تشمل المتابعات، فاحفظها بحذر.</div>
+<div class="mv"><button class="btn" id="bkMake">انسخ بياناتي</button><button class="btn alt" id="bkRestore" style="color:var(--ink)">استعادة من النص</button></div>
+<textarea id="bkText" rows="3" aria-label="النسخة الاحتياطية" placeholder="هنا تظهر النسخة، أو الصق نسخة قديمة للاستعادة"></textarea>
+<div class="lk" id="bkMsg" style="margin-top:6px"></div>
+<div class="lk" style="margin-top:10px"><b>تثبيت على الشاشة الرئيسية:</b> افتح رابط الصفحة في كروم، ثم القائمة ⋮ ثم «إضافة إلى الشاشة الرئيسية». استخدم نفس المكان دائمًا (كروم أو تطبيق Claude)، لأن البيانات منفصلة بين كل واحد منهم، والنسخة الاحتياطية تنقلها بينهم.</div></div>
+<footer>كل البيانات هنا محفوظة على جهازك في هذا المتصفح فقط، والمواعيد الظاهرة تجريبية. وقت الطريق تقدير تدخله بنفسك. <button class="x" id="reset" style="font-size:12px;text-decoration:underline">إعادة ضبط</button></footer>
+</div>
+
+<div id="alertBar"></div>
+<div id="sheet"><div class="panel">
+  <h2 style="margin-top:0">موعد جديد <button class="x" id="closeSheet" aria-label="إغلاق">×</button></h2>
+  <div class="grid">
+    <label class="full">اسم الموعد<input id="aTitle" placeholder="مثال: اجتماع شباب"></label>
+    <label class="full">النوع<select id="aType"><option>صلاة</option><option>اجتماع</option><option>زيارة</option><option>عظة أو درس</option><option>أخرى</option></select></label>
+    <label>الكنيسة<input id="aChurch"></label>
+    <label>العنوان (للخريطة)<input id="aAddr"></label>
+    <label class="full">بداية الخدمة<input id="aStart" type="datetime-local"></label>
+    <label>الوصول قبلها (دقيقة)<input id="aArrive" type="number" min="0" value="15"></label>
+    <label>مدة الطريق (دقيقة)<input id="aTravel" type="number" min="0" value="30"></label>
+    <label>هامش التأخير (دقيقة)<input id="aBuffer" type="number" min="0" value="10"></label>
+    <label>وقت التحضير (دقيقة)<input id="aPrep" type="number" min="0" value="30"></label>
+    <label>مدة الموعد (دقيقة)<input id="aDur" type="number" min="5" value="60"></label>
+    <label class="full">ملاحظات التحضير<input id="aNotes" placeholder="نقاط أساسية أو مراجع تحتاجها"></label>
+  </div>
+  <div class="preview" id="aPreview"></div>
+  <button class="btn" id="saveAppt">حفظ الموعد</button>
+</div></div>
+
+<script>
+var KEY="raei-proto-1";
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function pad(n){return String(n).padStart(2,"0")}
+function toInput(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes())}
+function at(dayOffset,h,m){var d=new Date();d.setDate(d.getDate()+dayOffset);d.setHours(h,m,0,0);return toInput(d)}
+function seed(){return{
+ appts:[
+  {id:uid(),title:"صلاة عشية",church:"كنيسة تجريبية ١",addr:"",start:at(0,18,0),arrive:15,travel:25,buffer:10,prep:20,dur:60},
+  {id:uid(),title:"اجتماع شباب",church:"كنيسة تجريبية ٢",addr:"",start:at(1,19,0),arrive:10,travel:40,buffer:15,prep:45,dur:90},
+  {id:uid(),title:"زيارة افتقاد",church:"",addr:"",start:at(2,11,0),arrive:0,travel:20,buffer:10,prep:10,dur:45}],
+ tasks:[{id:uid(),title:"مراجعة مخطط عظة الأحد",pri:0,done:false},{id:uid(),title:"الرد على السكرتارية",pri:1,done:false}],
+ follow:[{id:uid(),title:"متابعة أسرة تجريبية",done:false}],
+ prepDone:{}}}
+var S;
+try{S=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){S=null}
+if(!S||!S.appts){S=seed()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+function T(d){return d.toLocaleTimeString("ar-EG",{hour:"numeric",minute:"2-digit"})}
+function calc(a){var s=new Date(a.start),leave=new Date(s-(+a.arrive+ +a.travel+ +a.buffer)*60000);
+ return{s:s,end:new Date(+s+ +a.dur*60000),arrive:new Date(s-a.arrive*60000),leave:leave,prep:new Date(leave-a.prep*60000)}}
+function dayLabel(d){var t=new Date();t.setHours(0,0,0,0);var x=new Date(d);x.setHours(0,0,0,0);var df=Math.round((x-t)/864e5);
+ if(df===0)return"اليوم";if(df===1)return"غدًا";if(df===-1)return"أمس";
+ return d.toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long"})}
+function dur(ms){var m=Math.max(0,Math.round(ms/60000)),h=Math.floor(m/60),r=m%60;
+ if(h&&r)return h+" ساعة و"+r+" دقيقة";if(h)return h+" ساعة";return r+" دقيقة"}
+function mapsUrl(a){var q=[a.church,a.addr].filter(Boolean).join(" ");return q?"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(q):""}
+
+function sorted(){return S.appts.map(function(a){return{a:a,c:calc(a)}}).sort(function(x,y){return x.c.s-y.c.s})}
+function conflicts(list){var out={};for(var i=0;i<list.length;i++)for(var j=i+1;j<list.length;j++){
+ var A=list[i],B=list[j];if(B.c.leave<A.c.end&&B.c.s>A.c.leave){out[B.a.id]=A.a.title}}return out}
+
+function render(){
+ var now=new Date(),list=sorted(),cf=conflicts(list);
+ document.getElementById("date").textContent=now.toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ var up=list.filter(function(x){return x.c.end>now});
+ var h=document.getElementById("hero");
+ if(!up.length){h.innerHTML="<small>لا مواعيد قادمة</small><div class=big>يومك فاضي</div><button class=btn onclick=openSheet()>أضف موعدًا</button>"}
+ else{var n=up[0],c=n.c,a=n.a,late=c.leave<=now,started=c.s<=now,url=mapsUrl(a);
+  var lead=started?"الموعد بدأ":late?"حان وقت التحرك":"تحرّك عند";
+  var sub=started?a.title+" جارٍ الآن":late?"الوصول المطلوب "+T(c.arrive)+" وبداية الخدمة "+T(c.s):"بعد "+dur(c.leave-now);
+  h.innerHTML="<small>"+esc(a.title)+(a.church?" — "+esc(a.church):"")+"</small>"+
+   "<small style='margin-top:10px'>"+lead+"</small><div class=big>"+T(started?c.s:c.leave)+"</div><div>"+sub+"</div>"+
+   "<div class=chain><span>التحضير يبدأ "+T(c.prep)+"</span><span>الوصول "+T(c.arrive)+"</span><span>الخدمة "+T(c.s)+"</span><span>طريق "+a.travel+" د + هامش "+a.buffer+" د (تقدير يدوي)</span></div>"+
+   (url?"<a class='btn alt' target='_blank' rel='noopener' href='"+url+"'>افتح الاتجاهات</a>":"");}
+ var ap=document.getElementById("appts");
+ ap.innerHTML=list.length?list.map(function(x){var a=x.a,c=x.c,past=c.end<now;
+  return"<div class='row"+(past?" past":"")+"'><div class=time>"+T(c.s)+"</div><div class=grow><div class=t>"+esc(a.title)+"</div>"+
+   "<div class=m>"+(a.type?"<span class=tag>"+esc(a.type)+"</span> ":"")+dayLabel(c.s)+(a.church?" · "+esc(a.church):"")+"</div>"+
+   "<div class=m>تحرّك "+T(c.leave)+" · وصول "+T(c.arrive)+"</div>"+"<div class=m><a target=_blank rel=noopener style='color:var(--acc)' href='"+gcal(a,c).replace(/&/g,"&amp;")+"'>أضف لتقويم الجوال مع تنبيه</a></div>"+
+   (cf[a.id]?"<div class=warn>تعارض مع «"+esc(cf[a.id])+"» (يشمل وقت الطريق)</div>":"")+
+   "</div><button class=x aria-label='تعديل' onclick=\"editAppt('"+a.id+"')\">✎</button><button class=x aria-label='حذف' onclick=\"delAppt('"+a.id+"')\">×</button></div>"}).join(""):"<div class=empty>لا مواعيد بعد. اضغط «+ موعد» لتبدأ.</div>";
+ var pr=up.filter(function(x){return x.a.prep>0}).slice(0,5);
+ document.getElementById("prep").innerHTML=pr.length?pr.map(function(x){var a=x.a,d=S.prepDone[a.id];
+  return"<div class=row><input type=checkbox "+(d?"checked":"")+" aria-label='جاهز' onchange=\"togPrep('"+a.id+"')\"><div class=grow><div class=t>"+esc(a.title)+"</div><div class=m>"+a.prep+" دقيقة تبدأ "+dayLabel(x.c.prep)+" "+T(x.c.prep)+"</div>"+(a.notes?"<div class=m>"+esc(a.notes)+"</div>":"")+"</div><span class=tag>"+(d?"جاهز":"ناقص")+"</span></div>"}).join(""):"<div class=empty>لا تحضيرات مطلوبة.</div>";
+ var tk=S.tasks.slice().sort(function(a,b){return a.done-b.done||a.pri-b.pri});
+ document.getElementById("tasks").innerHTML=tk.length?tk.map(function(t){
+  return"<div class='row"+(t.done?" past":"")+"'><input type=checkbox "+(t.done?"checked":"")+" aria-label='تم' onchange=\"tog('tasks','"+t.id+"')\"><div class=grow><div class=t>"+esc(t.title)+"</div></div>"+(t.pri===0?"<span class='tag p-high'>عالية</span>":"")+"<button class=x aria-label='حذف' onclick=\"del('tasks','"+t.id+"')\">×</button></div>"}).join(""):"<div class=empty>لا مهام.</div>";
+ document.getElementById("follow").innerHTML=S.follow.length?S.follow.map(function(t){
+  return"<div class='row"+(t.done?" past":"")+"'><input type=checkbox "+(t.done?"checked":"")+" aria-label='تمت' onchange=\"tog('follow','"+t.id+"')\"><div class=grow><div class=t>"+esc(t.title)+"</div>"+(t.date?"<div class="+(od(t)?"warn":"m")+">"+(od(t)?"متأخرة — ":"")+dayLabel(new Date(t.date+"T12:00"))+"</div>":"")+"</div><button class=x aria-label='حذف' onclick=\"del('follow','"+t.id+"')\">×</button></div>"}).join(""):"<div class=empty>لا متابعات.</div>";
+ renderLib();
+}
+function tog(k,id){S[k].forEach(function(t){if(t.id===id)t.done=!t.done});save();render()}
+function del(k,id){S[k]=S[k].filter(function(t){return t.id!==id});save();render()}
+function togPrep(id){S.prepDone[id]=!S.prepDone[id];save();render()}
+function delAppt(id){S.appts=S.appts.filter(function(a){return a.id!==id});save();render()}
+
+document.getElementById("addTask").onclick=function(){var i=document.getElementById("tTitle"),v=i.value.trim();if(!v)return;
+ S.tasks.push({id:uid(),title:v,pri:+document.getElementById("tPri").value,done:false});i.value="";save();render()};
+document.getElementById("addFollow").onclick=function(){var i=document.getElementById("fTitle"),v=i.value.trim();if(!v)return;
+ S.follow.push({id:uid(),title:v,date:g("fDate").value,done:false});i.value="";g("fDate").value="";save();render()};
+document.getElementById("reset").onclick=function(){S=seed();save();render()};
+
+var sheet=document.getElementById("sheet");
+function g(i){return document.getElementById(i)}
+function openSheet(){editId=null;var d=new Date();d.setDate(d.getDate()+1);d.setHours(18,0,0,0);g("aStart").value=toInput(d);["aTitle","aChurch","aAddr","aNotes"].forEach(function(i){g(i).value=""});preview();sheet.classList.add("on")}
+function closeSheet(){sheet.classList.remove("on")}
+function form(){return{id:uid(),title:g("aTitle").value.trim()||"موعد",church:g("aChurch").value.trim(),addr:g("aAddr").value.trim(),start:g("aStart").value,
+ arrive:+g("aArrive").value||0,travel:+g("aTravel").value||0,buffer:+g("aBuffer").value||0,prep:+g("aPrep").value||0,dur:+g("aDur").value||60,type:g("aType").value,notes:g("aNotes").value.trim()}}
+function preview(){var a=form();if(!a.start){g("aPreview").textContent="اختر وقت بداية الخدمة.";return}var c=calc(a);
+ g("aPreview").innerHTML="الوصول المطلوب <b>"+T(c.arrive)+"</b><br>وقت التحرك المقترح <b>"+T(c.leave)+"</b> ("+dayLabel(c.leave)+")<br>بداية التحضير <b>"+T(c.prep)+"</b>"}
+["aStart","aArrive","aTravel","aBuffer","aPrep","aDur","aTitle"].forEach(function(i){g(i).oninput=preview});
+g("addAppt").onclick=openSheet;g("closeSheet").onclick=closeSheet;
+sheet.onclick=function(e){if(e.target===sheet)closeSheet()};
+var editId=null;
+function od(t){return !t.done&&new Date(t.date+"T23:59:59")<new Date()}
+function editAppt(id){var a=S.appts.filter(function(x){return x.id===id})[0];if(!a)return;openSheet();editId=id;
+ g("aTitle").value=a.title;g("aType").value=a.type||"صلاة";g("aChurch").value=a.church||"";g("aAddr").value=a.addr||"";g("aStart").value=a.start;g("aArrive").value=a.arrive;g("aTravel").value=a.travel;g("aBuffer").value=a.buffer;g("aPrep").value=a.prep;g("aDur").value=a.dur;g("aNotes").value=a.notes||"";preview()}
+g("saveAppt").onclick=function(){var a=form();if(!a.start)return;
+ if(editId){a.id=editId;S.ack=S.ack||{};S.fired=S.fired||{};S.appts=S.appts.map(function(x){return x.id===editId?a:x});["p","l"].forEach(function(s){delete S.ack[editId+":"+s];delete S.fired[editId+":"+s]})}else S.appts.push(a);
+ editId=null;save();closeSheet();render();checkAlerts()};
+var PAL=[["كحلي وذهبي","#0f1f4a","#d4af37","#0f1f4a","#0b1738"],["زيتوني","#4a5d23","#b5c97a","#1f2a14","#0d130a"],["أزرق ملكي","#1f4e9c","#8fb4f0","#10264d","#080f20"],["بنفسجي","#5b2a86","#c3a1ea","#2a1647","#130a22"],["ذهبي وبني","#8a5a12","#e0b765","#3a2a14","#1a1209"]];
+var DEF_ORDER=["appts","prep","tasks","follow","lib"];
+function L(){if(!S.look)S.look={pal:0,mode:"auto",size:16};return S.look}
+var mq=window.matchMedia?window.matchMedia("(prefers-color-scheme: dark)"):null;
+function applyLook(){var l=L(),r=document.documentElement,p=PAL[l.pal]||PAL[0];
+ if(l.mode==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",l.mode);
+ var dark=l.mode==="dark"||(l.mode==="auto"&&mq&&mq.matches);
+ r.style.setProperty("--acc",dark?p[2]:p[1]);r.style.setProperty("--hero",dark?p[4]:p[3]);r.style.setProperty("--acc-ink",dark?"#14080b":"#fff");
+ document.body.style.fontSize=l.size+"px"}
+if(mq&&mq.addEventListener)mq.addEventListener("change",applyLook);
+function buildLook(){var l=L();
+ g("look").innerHTML="<div class=lk>اللون</div><div class=mv style='gap:10px;margin:6px 0 12px'>"+PAL.map(function(p,i){return"<button class='sw"+(i===l.pal?" on":"")+"' data-pal='"+i+"' style='background:"+p[1]+"' aria-label='"+p[0]+"' title='"+p[0]+"'></button>"}).join("")+"</div>"+
+ "<div class=lk>الوضع</div><div class=mv style='margin:6px 0 12px'>"+[["auto","تلقائي"],["light","فاتح"],["dark","داكن"]].map(function(o){return"<button class='chip"+(o[0]===l.mode?" on":"")+"' data-mode='"+o[0]+"'>"+o[1]+"</button>"}).join("")+"</div>"+
+ "<div class=lk>حجم الخط</div><div class=mv style='margin-top:6px'>"+[[15,"صغير"],[16,"عادي"],[19,"كبير"]].map(function(o){return"<button class='chip"+(o[0]===l.size?" on":"")+"' data-size='"+o[0]+"'>"+o[1]+"</button>"}).join("")+"</div>"}
+g("look").onclick=function(e){var b=e.target.closest("button");if(!b)return;var l=L();
+ if(b.dataset.pal!=null)l.pal=+b.dataset.pal;if(b.dataset.mode)l.mode=b.dataset.mode;if(b.dataset.size)l.size=+b.dataset.size;
+ save();applyLook();buildLook();render()};
+g("lookBtn").onclick=function(){g("look").hidden=!g("look").hidden};
+function getOrder(){var o=(S.order||[]).filter(function(id){return DEF_ORDER.indexOf(id)>-1});DEF_ORDER.forEach(function(id){if(o.indexOf(id)<0)o.push(id)});return o}
+function applyOrder(){var o=getOrder(),ask=document.querySelector(".ask");
+ o.forEach(function(id){var s=document.querySelector('.sec[data-id="'+id+'"]');if(s)ask.parentNode.insertBefore(s,ask)})}
+document.querySelector(".app").addEventListener("click",function(e){var b=e.target.closest(".up,.dn");if(!b)return;
+ var s=b.closest(".sec"),id=s.dataset.id,o=getOrder(),i=o.indexOf(id),j=b.classList.contains("up")?i-1:i+1;
+ if(j<0||j>=o.length)return;o.splice(i,1);o.splice(j,0,id);S.order=o;save();applyOrder()});
+g("reset").onclick=function(){var l=S.look,o=S.order;S=seed();S.look=l;S.order=o;save();render()};
+var SAMPLE=null;
+try{if(window.claude&&window.claude.use){window.claude.use("sample").then(function(s){SAMPLE=s}).catch(function(){})}}catch(e){}
+function delNote(id){S.notes=(S.notes||[]).filter(function(x){return x.id!==id});save();renderLib()}
+function renderLib(){var n=S.notes||[],q=g("qLib").value.trim(),list=sorted(),sel=g("nAppt"),sig=list.map(function(x){return x.a.id+x.a.title}).join("|");
+ if(sel.dataset.sig!==sig){var cur=sel.value;sel.innerHTML="<option value=''>غير مرتبط بموعد</option>"+list.map(function(x){return"<option value='"+x.a.id+"'>"+esc(x.a.title)+" — "+dayLabel(x.c.s)+"</option>"}).join("");sel.value=cur;sel.dataset.sig=sig}
+ var f=n.filter(function(x){return!q||(x.title+" "+x.body).indexOf(q)>-1}).slice().reverse();
+ g("lib").innerHTML=f.length?f.map(function(x){var ap=S.appts.filter(function(a){return a.id===x.appt})[0];
+  return"<div class=row><div class=grow><div class=t>"+esc(x.title)+(x.ai?" <span class=tag>من راعي</span>":"")+"</div>"+(ap?"<div class=m>مرتبط بـ «"+esc(ap.title)+"»</div>":"")+"<div class=m style='white-space:pre-wrap'>"+esc(x.body)+"</div></div><button class=x aria-label='حذف' onclick=\"delNote('"+x.id+"')\">×</button></div>"}).join(""):"<div class=empty>"+(q?"لا نتائج.":"لا ملاحظات بعد.")+"</div>"}
+g("qLib").oninput=renderLib;
+g("addNote").onclick=function(){var t=g("nTitle").value.trim(),b=g("nBody").value.trim();if(!t&&!b)return;(S.notes=S.notes||[]).push({id:uid(),title:t||b.slice(0,30),body:b,appt:g("nAppt").value});g("nTitle").value="";g("nBody").value="";save();renderLib()};
+var PROMPT="أنت «راعي»، مساعد شخصي لأب كاهن. أجب بالعربية البسيطة وباختصار (ثمانية أسطر كحد أقصى ما لم يُطلب تحضير مفصّل). اعتمد على البيانات أدناه وحدها فيما يخص مواعيده ومهامه، ولا تخترع مواعيد أو مهام. في التحضير الروحي لا تختلق آيات أو اقتباسات؛ اذكر مراجع كتابية معروفة فقط (السفر والأصحاح) واطلب منه مراجعتها في الكتاب المقدس قبل الاستخدام. لا تتخذ قرارات رعوية نيابة عنه ولا تستنتج أمورًا شخصية عن أحد.\n\n";
+function ctx(){var now=new Date(),A=sorted().filter(function(x){return x.c.end>now}).slice(0,8),K=S.tasks.filter(function(t){return!t.done});
+ return"الوقت الآن: "+now.toLocaleString("ar-EG")+"\n\nالمواعيد القادمة:\n"+(A.length?A.map(function(x,i){var a=x.a,c=x.c;return(i+1)+". "+a.title+(a.type?" ("+a.type+")":"")+" — "+dayLabel(c.s)+" "+T(c.s)+(a.church?" — "+a.church:"")+" — التحرك "+T(c.leave)+" — الوصول "+T(c.arrive)+" — تحضير "+a.prep+" دقيقة"+(a.notes?" — ملاحظات: "+a.notes:"")}).join("\n"):"لا شيء")+"\n\nالمهام المفتوحة:\n"+(K.length?K.map(function(t){return"- "+t.title+(t.pri===0?" (أولوية عالية)":"")}).join("\n"):"لا شيء")+"\n\nعناوين المكتبة: "+((S.notes||[]).map(function(x){return x.title}).join("، ")||"لا شيء")}
+var lastQ="",lastA="";
+function runAsk(q){q=(q||g("qAsk").value).trim();if(!q)return;var out=g("ans");
+ if(!SAMPLE){out.textContent="المساعد غير متاح هنا. افتح الصفحة من حسابك في Claude وجرّب مرة أخرى.";return}
+ out.textContent="جارٍ التفكير…";g("saveAns").hidden=true;
+ SAMPLE([{role:"user",content:PROMPT+ctx()+"\n\nطلب الأب: "+q}],{cache:false,onText:function(r){out.textContent=r.text}}).then(function(r){lastQ=q;lastA=r.text;out.textContent=r.text;g("saveAns").hidden=false}).catch(function(e){out.textContent=e&&e.code==="rate_limited"?"المساعد مشغول الآن، حاول بعد قليل.":e&&e.code==="not_granted"?"لم تسمح بتشغيل المساعد.":"تعذّر الوصول إلى المساعد."})}
+g("goAsk").onclick=function(){runAsk()};
+g("qAsk").onkeydown=function(e){if(e.key==="Enter")runAsk()};
+g("askBox").onclick=function(e){var b=e.target.closest(".chip");if(b&&b.dataset.q){g("qAsk").value=b.dataset.q;runAsk(b.dataset.q)}};
+g("saveAns").onclick=function(){(S.notes=S.notes||[]).push({id:uid(),title:lastQ,body:lastA,appt:"",ai:true});save();renderLib();g("saveAns").hidden=true};
+applyLook();buildLook();applyOrder();
+function gcal(a,c){function f(d){return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00"}
+ return"https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(a.title+(a.church?" — "+a.church:""))+"&dates="+f(c.leave)+"/"+f(c.end)+"&details="+encodeURIComponent("التحرك "+T(c.leave)+"، الوصول "+T(c.arrive)+"، بداية الخدمة "+T(c.s))+((a.church||a.addr)?"&location="+encodeURIComponent([a.church,a.addr].filter(Boolean).join(" ")):"")}
+function alertList(){var out=[];sorted().forEach(function(x){var a=x.a,c=x.c,lead=(S.al&&S.al.lead!=null)?S.al.lead:10;
+ if(a.prep>0)out.push({k:a.id+":p",at:c.prep,end:c.s,txt:"بدأ وقت التحضير: "+a.title});
+ out.push({k:a.id+":l",at:new Date(c.leave-lead*60000),end:c.s,txt:(lead?"بعد "+lead+" دقيقة":"الآن")+" وقت التحرك إلى «"+a.title+"» ("+T(c.leave)+")"})});return out}
+function ring(e){try{if(navigator.vibrate)navigator.vibrate([300,150,300,150,300])}catch(x){}
+ try{if(window.Notification&&Notification.permission==="granted")new Notification("راعي",{body:e.txt})}catch(x){}
+ try{var C=window.AudioContext||window.webkitAudioContext,c=new C(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();setTimeout(function(){o.stop();c.close()},400)}catch(x){}}
+function checkAlerts(){var al=S.al||(S.al={on:true,lead:10}),now=+new Date(),due=[];S.fired=S.fired||{};S.ack=S.ack||{};S.log=S.log||[];
+ if(al.on){alertList().forEach(function(e){if(+e.at<=now&&now<+e.end&&!S.ack[e.k]){due.push(e);var f=S.fired[e.k];
+  if(!f){S.fired[e.k]={t:now,n:1};S.log.push({k:e.k,txt:e.txt,t:now,ack:null});ring(e)}
+  else if(now-f.t>=f.n*300000){f.n++;ring(e)}}})}
+ if(S.log.length>30)S.log=S.log.slice(-30);save();
+ g("alertBar").innerHTML=due.map(function(e){var f=S.fired[e.k];return"<div class='alert'><div style='flex:1'>"+esc(e.txt)+(f&&f.n>1?"<div style='font-size:12px;opacity:.8'>تنبيه متكرر</div>":"")+"</div><button class=btn onclick=\"ackAl('"+e.k+"')\">تم</button></div>"}).join("")}
+function ackAl(k){S.ack[k]=true;(S.log||[]).forEach(function(x){if(x.k===k&&!x.ack)x.ack=+new Date()});save();checkAlerts();buildAl()}
+function buildAl(){var al=S.al||(S.al={on:true,lead:10}),perm=window.Notification?Notification.permission:"unsupported";
+ g("alPanel").innerHTML="<label style='display:flex;gap:8px;align-items:center;color:var(--ink);font-size:15px'><input type=checkbox id=alOn style='width:20px;height:20px;accent-color:var(--acc)' "+(al.on?"checked":"")+">تفعيل التنبيهات داخل الصفحة</label>"+
+ "<div class=lk style='margin:10px 0 6px'>نبّهني قبل وقت التحرك بـ</div><div class=mv>"+[0,10,15,30].map(function(n){return"<button class='chip"+(al.lead===n?" on":"")+"' data-lead='"+n+"'>"+(n?n+" دقيقة":"في وقت التحرك")+"</button>"}).join("")+"</div>"+
+ "<div class=lk style='margin-top:10px'>إذا لم تضغط «تم» خلال 5 دقائق يتكرر التنبيه.</div>"+
+ (perm==="default"?"<button class=btn id=alPerm style='margin-top:10px'>اسمح بإشعارات المتصفح</button>":"")+
+ "<div class=lk style='margin-top:10px'>تنبيه: هذه التنبيهات تعمل فقط والصفحة مفتوحة وغير مضمونة. لتنبيه موثوق والصفحة مغلقة استخدم «أضف لتقويم الجوال» تحت أي موعد.</div>"+
+ "<div class=lk style='margin-top:10px'>آخر التنبيهات</div>"+((S.log||[]).slice(-5).reverse().map(function(x){return"<div class=lk>"+esc(x.txt)+" — "+(x.ack?"تم "+T(new Date(x.ack)):"لم يُؤكّد")+"</div>"}).join("")||"<div class=lk>لا تنبيهات بعد.</div>")}
+g("alBtn").onclick=function(){g("alPanel").hidden=!g("alPanel").hidden;buildAl()};
+g("alPanel").onclick=function(e){var b=e.target.closest("button");if(!b)return;
+ if(b.dataset.lead!=null){S.al.lead=+b.dataset.lead;save();buildAl();checkAlerts()}
+ else if(b.id==="alPerm"){try{Notification.requestPermission().then(buildAl)}catch(x){}}};
+g("alPanel").onchange=function(e){if(e.target.id==="alOn"){S.al.on=e.target.checked;save();checkAlerts()}};
+var rsArm=false;
+function bkMsg(t){g("bkMsg").textContent=t}
+g("bkMake").onclick=function(){var t=JSON.stringify(S);g("bkText").value=t;g("bkText").select();var ok=false;
+ try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t);ok=true}}catch(e){}
+ if(!ok){try{ok=document.execCommand("copy")}catch(e){}}
+ bkMsg(ok?"تم النسخ. الصقه في رسالة لنفسك أو ملاحظات.":"انسخ النص يدويًا من الخانة والصقه في مكان آمن.")};
+g("bkRestore").onclick=function(){var t=g("bkText").value.trim();if(!t){bkMsg("الصق النسخة في الخانة أولًا.");return}
+ var d;try{d=JSON.parse(t)}catch(e){d=null}
+ if(!d||!Array.isArray(d.appts)||!Array.isArray(d.tasks)){bkMsg("النص ده مش نسخة صحيحة من راعي.");rsArm=false;return}
+ if(!rsArm){rsArm=true;bkMsg("هتتبدل بيانات هذا الجهاز بالنسخة دي. اضغط «استعادة» مرة تانية للتأكيد.");return}
+ rsArm=false;S=d;if(!S.follow)S.follow=[];save();applyLook();buildLook();buildAl();applyOrder();render();checkAlerts();bkMsg("تمت الاستعادة.")};
+g("bkText").oninput=function(){rsArm=false};
+render();buildAl();checkAlerts();setInterval(function(){render();checkAlerts()},20000);document.addEventListener("visibilitychange",function(){checkAlerts()});
+</script>
+</body>
+</html>
